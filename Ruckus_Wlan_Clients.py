@@ -10,8 +10,9 @@ def jprint(obj):
     print(text)
 
 
+configlocation = r"C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\EXEXML\Ruckus_Wlan_Clients.ini"
 configfile = configparser.ConfigParser()
-configfile.read("Ruckus_Wlan_Clients.ini")
+configfile.read(configlocation)
 result = CustomSensorResult()
 
 # Parameters
