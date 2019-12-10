@@ -68,7 +68,8 @@ result.add_channel(channel_name="Total Clients", value=sum(wlanclients), unit="C
 print(result.get_json_result())
 
 # Delete Session
-# all = requests.delete(urlsession, verify=False)
+call = requests.delete(urlsession, verify=False)
+
 # print(call.text)
 # call = requests.get(urlsession, verify=False)
 # print(call.text)
