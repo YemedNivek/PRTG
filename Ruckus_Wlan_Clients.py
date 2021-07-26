@@ -10,7 +10,7 @@ def jprint(obj):
     print(text)
 
 
-configlocation = r"C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\EXEXML\Ruckus_Wlan_Clients.ini"
+configlocation = r"C:\Program Files (x86)\PRTG Network Monitor\Custom Sensors\python\Ruckus_Wlan_Clients.ini"
 configfile = configparser.ConfigParser()
 configfile.read(configlocation)
 result = CustomSensorResult()
@@ -19,12 +19,13 @@ result = CustomSensorResult()
 cookie = requests.Session()
 username = configfile["credentials"]["username"]
 password = configfile["credentials"]["password"]
+hostname = configfile["credentials"]["hostname"]
 # Disable warnings, needs to be removed if valid certificate is in place.
 requests.packages.urllib3.disable_warnings()
 
 # Start Session
 para_session = {"username": username, "password": password}
-urlsession = "https://vsz.ant.int.infrastay.be:8443/wsg/api/public/v8_2/session"
+urlsession = "https://" + hostname + "/wsg/api/public/v10_0/session"
 session = cookie.post(urlsession, json=para_session, verify=False)
 
 # Get session Info
@@ -32,7 +33,7 @@ session = cookie.post(urlsession, json=para_session, verify=False)
 # jprint(call.json())
 
 # Get ZoneID
-urlzones = "https://vsz.ant.int.infrastay.be:8443/wsg/api/public/v8_2/rkszones"
+urlzones = "https://" + hostname + "/wsg/api/public/v10_0/rkszones"
 call = cookie.get(urlzones, verify=False)
 for zones in call.json()["list"]:
     if "Default" in zones["name"]:
@@ -56,7 +57,7 @@ para_session = {
         "*"
     ]
 }
-urlwlans = "https://vsz.ant.int.infrastay.be:8443/wsg/api/public/v8_2/query/wlan"
+urlwlans = "https://" + hostname + "/wsg/api/public/v10_0/query/wlan"
 call = cookie.post(urlwlans, json=para_session, verify=False)
 for wlans in call.json()["list"]:
     wlannames.append(wlans["name"])
